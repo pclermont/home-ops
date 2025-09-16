@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: home
+  source:
+    repoURL: git@github.com:pclermont/home-ops.git
+    targetRevision: HEAD
+    path: manifests/cilium
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

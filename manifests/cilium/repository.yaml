@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  project: home
+  source:
+    chart: cilium
+    repoURL: https://helm.cilium.io/
+    helm:
+      releaseName: cilium
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: kube-system
