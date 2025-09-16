@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-root
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: home
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  source:
+    path: manifests/apps
+    repoURL: git@github.com:pclermont/home-ops.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated: { }
