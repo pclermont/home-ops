@@ -7,7 +7,7 @@ spec:
   project: home
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.10.1  # Choose the version you need
+    targetRevision: 4.13.2  # Choose the version you need
     chart: ingress-nginx
     helm:
       values: |
