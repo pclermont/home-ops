@@ -12,6 +12,8 @@ spec:
     repoURL: git@github.com:pclermont/home-ops.git
     targetRevision: HEAD
     path: manifests/nginx-ingress
+    kustomize:
+      enableHelm: true
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx-ingress
