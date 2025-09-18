@@ -1,7 +1,8 @@
-controller:
-  hostNetwork: true
-  hostPort:
-    enabled: true
-  kind: DaemonSet
-  service:
-    enabled: false
+ingress-nginx:
+  controller:
+    hostNetwork: true
+    hostPort:
+      enabled: true
+    kind: DaemonSet
+    service:
+      enabled: false

@@ -4,5 +4,5 @@ kind: Kustomization
 namespace: nginx-ingress
 resources:
   - namespace.yaml
-  - deploy.yaml
+  - chart.yaml
 
