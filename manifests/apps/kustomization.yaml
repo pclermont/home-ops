@@ -2,3 +2,4 @@ resources:
   - argocd.yaml
   - cilium.yaml
   - nginx-ingress.yaml
+  - cert-manager.yaml
