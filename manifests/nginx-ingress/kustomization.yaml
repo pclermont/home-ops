@@ -1,38 +1,27 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-helmCharts:
-  - name: ingress-nginx
-    repo: https://kubernetes.github.io/ingress-nginx
-    version: 4.13.2
-    releaseName: ingress-nginx
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: argocd
+spec:
+  project: home
+  source:
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.10.1  # Choose the version you need
+    chart: ingress-nginx
+    helm:
+      values: |
+        controller:
+          hostNetwork: true
+          hostPort:
+            enabled: true
+          kind: DaemonSet
+          service:
+            enabled: false
+  destination:
+    server: https://kubernetes.default.svc
     namespace: ingress-nginx
-    valuesInline:
-      controller:
-        hostNetwork: true
-        hostPort:
-          enabled: true
-        kind: DaemonSet
-        extraArgs:
-          # Secret where the default ingress TLS cert (wildcard) lives: <namespace>/<secret_name>
-          default-ssl-certificate: ingress-nginx/default-tls
-        replicaCount: 2
-        service:
-          enabled: false
-          annotations:
-            service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
-            # Use private IP addressing
-            service.beta.kubernetes.io/azure-load-balancer-internal: true
-            # Specify the static IP from the AKS cluster's node subnet for the ingress controller's LoadBalancer (and DNS records)
-            service.beta.kubernetes.io/azure-load-balancer-ipv4: replace_in_overlay
-
-patches:
-  # Enable passthrough for Argo CD (no Helm value for this, so doing it here)
-  # See https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
-  - target:
-      kind: Deployment
-      name: ingress-nginx-controller
-    patch: |-
-      - op: add
-        path: /spec/template/spec/containers/0/args/-
-        value: "--enable-ssl-passthrough"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
