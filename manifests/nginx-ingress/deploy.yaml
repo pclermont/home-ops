@@ -12,6 +12,7 @@ spec:
     targetRevision: ">=v4.13.0 <4.14.0"
     chart: ingress-nginx
     helm:
+      releaseName: nginx-ingress
       values: |
         controller:
           hostNetwork: true
